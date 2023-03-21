@@ -56,15 +56,23 @@
 		9A6CB6EA29CA117900F1EED2 /* ImageFeed */ = {
 			isa = PBXGroup;
 			children = (
+				9A6CB71B29CA160900F1EED2 /* Resources */,
 				9A6CB6EB29CA117900F1EED2 /* AppDelegate.swift */,
 				9A6CB6ED29CA117900F1EED2 /* SceneDelegate.swift */,
 				9A6CB6EF29CA117900F1EED2 /* ViewController.swift */,
 				9A6CB6F129CA117900F1EED2 /* Main.storyboard */,
-				9A6CB6F429CA117A00F1EED2 /* Assets.xcassets */,
-				9A6CB6F629CA117A00F1EED2 /* LaunchScreen.storyboard */,
 				9A6CB6F929CA117A00F1EED2 /* Info.plist */,
 			);
 			path = ImageFeed;
+			sourceTree = "<group>";
+		};
+		9A6CB71B29CA160900F1EED2 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				9A6CB6F429CA117A00F1EED2 /* Assets.xcassets */,
+				9A6CB6F629CA117A00F1EED2 /* LaunchScreen.storyboard */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
