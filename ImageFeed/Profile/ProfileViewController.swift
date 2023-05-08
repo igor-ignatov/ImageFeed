@@ -91,6 +91,7 @@ class ProfileViewController: UIViewController {
         
         profileService.fetchProfile(oAuth2TokenStorage.token!) { [weak self] result in
             guard let self = self else { return }
+            UIBlockingProgressHUD.show()
             
             switch result {
             case let .success(profile):
