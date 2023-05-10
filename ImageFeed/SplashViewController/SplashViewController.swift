@@ -7,6 +7,29 @@ final class SplashViewController: UIViewController {
     private let oauth2Service = OAuth2Service()
     private let oauth2TokenStorage = OAuth2TokenStorage()
     
+    private func initSplashImage() {
+        let image = UIImage(named: "auth_screen_logo")
+        let splashLogoImage = UIImageView(image: image)
+        
+        splashLogoImage.translatesAutoresizingMaskIntoConstraints = false
+        
+        view.addSubview(splashLogoImage)
+        NSLayoutConstraint.activate([
+            splashLogoImage.heightAnchor.constraint(equalToConstant: 78),
+            splashLogoImage.widthAnchor.constraint(equalToConstant: 75),
+            splashLogoImage.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            splashLogoImage.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        view.backgroundColor = UIColor(named: "ypBlack")
+        initSplashImage()
+    }
+        
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
@@ -26,7 +49,7 @@ final class SplashViewController: UIViewController {
     override var preferredStatusBarStyle: UIStatusBarStyle {
         .lightContent
     }
-
+    
     
     private func switchToTabBarController() {
         guard let window = UIApplication.shared.windows.first else { fatalError("Invalid Configuration") }
@@ -52,9 +75,8 @@ extension SplashViewController {
 
 extension SplashViewController: AuthViewControllerDelegate {
     func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String) {
-        UIBlockingProgressHUD.show()
-        
         dismiss(animated: true) { [weak self] in
+            UIBlockingProgressHUD.show()
             guard let self = self else { return }
             self.fetchOAuthToken(code)
         }
@@ -62,13 +84,12 @@ extension SplashViewController: AuthViewControllerDelegate {
     
     private func fetchOAuthToken(_ code: String) {
         oauth2Service.fetchOAuthToken(code) { [weak self] result in
+            UIBlockingProgressHUD.dismiss()
             guard let self = self else { return }
             switch result {
             case .success(let token):
-                print("sssss")
                 self.fetchProfile(token: token)
             case .failure:
-                print("sssss")
                 UIBlockingProgressHUD.dismiss()
                 break
             }
@@ -77,14 +98,13 @@ extension SplashViewController: AuthViewControllerDelegate {
     
     private func fetchProfile(token: String) {
         profileService.fetchProfile(token) { [weak self] result in
+            UIBlockingProgressHUD.dismiss()
             guard let self else { return }
             switch result {
             case .success(let profile):
-                UIBlockingProgressHUD.dismiss()
                 self.profileImageService.fetchProfileImageURL(username: profile.username) { _ in }
                 self.switchToTabBarController()
             case .failure:
-                UIBlockingProgressHUD.dismiss()
                 self.showErrorAlert()
             }
         }

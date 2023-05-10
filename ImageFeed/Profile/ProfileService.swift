@@ -15,7 +15,7 @@ final class ProfileService {
     
     private func prepareRequest() -> URLRequest? {
         guard let token = OAuth2TokenStorage().token,
-        var url = URL(string: baseURLString)
+        var url = URL(string: BaseURLString)
         else { return nil }
 
         

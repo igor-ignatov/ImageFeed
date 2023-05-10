@@ -18,7 +18,7 @@ final class ProfileImageService {
     
     private func prepareRequest(username: String) -> URLRequest? {
         guard let token = OAuth2TokenStorage().token,
-              var url = URL(string: baseURLString)
+              var url = URL(string: BaseURLString)
         else { return nil }
         
         if #available(iOS 16.0, *) {
