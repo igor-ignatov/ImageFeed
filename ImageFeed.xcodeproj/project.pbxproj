@@ -26,6 +26,8 @@
 		9A6CB6F329CA117900F1EED2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9A6CB6F129CA117900F1EED2 /* Main.storyboard */; };
 		9A6CB6F529CA117A00F1EED2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9A6CB6F429CA117A00F1EED2 /* Assets.xcassets */; };
 		9A6CB6F829CA117A00F1EED2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9A6CB6F629CA117A00F1EED2 /* LaunchScreen.storyboard */; };
+		9A7071572A0C0B2200A740FF /* YS Display-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9A7071552A0C0B2200A740FF /* YS Display-Bold.ttf */; };
+		9A7071582A0C0B2200A740FF /* YS Display-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9A7071562A0C0B2200A740FF /* YS Display-Medium.ttf */; };
 		9A70EA9E29F558310023043D /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A70EA9D29F558310023043D /* AuthViewController.swift */; };
 		9A70EAA029F55AE10023043D /* WebViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A70EA9F29F55AE10023043D /* WebViewViewController.swift */; };
 		9A70EAAA29F7C3730023043D /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A70EAA929F7C3730023043D /* SplashViewController.swift */; };
@@ -54,6 +56,8 @@
 		9A6CB6F429CA117A00F1EED2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9A6CB6F729CA117A00F1EED2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9A6CB6F929CA117A00F1EED2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9A7071552A0C0B2200A740FF /* YS Display-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "YS Display-Bold.ttf"; sourceTree = "<group>"; };
+		9A7071562A0C0B2200A740FF /* YS Display-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "YS Display-Medium.ttf"; sourceTree = "<group>"; };
 		9A70EA9D29F558310023043D /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
 		9A70EA9F29F55AE10023043D /* WebViewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewViewController.swift; sourceTree = "<group>"; };
 		9A70EAA929F7C3730023043D /* SplashViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
@@ -170,10 +174,20 @@
 		9A6CB71B29CA160900F1EED2 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				9A7071542A0C0B2200A740FF /* Fonts */,
 				9A6CB6F429CA117A00F1EED2 /* Assets.xcassets */,
 				9A6CB6F629CA117A00F1EED2 /* LaunchScreen.storyboard */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		9A7071542A0C0B2200A740FF /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				9A7071552A0C0B2200A740FF /* YS Display-Bold.ttf */,
+				9A7071562A0C0B2200A740FF /* YS Display-Medium.ttf */,
+			);
+			path = Fonts;
 			sourceTree = "<group>";
 		};
 		9A70EA9C29F558180023043D /* Auth */ = {
@@ -291,6 +305,8 @@
 				9A6CB6F829CA117A00F1EED2 /* LaunchScreen.storyboard in Resources */,
 				9A6CB6F529CA117A00F1EED2 /* Assets.xcassets in Resources */,
 				9A6CB6F329CA117900F1EED2 /* Main.storyboard in Resources */,
+				9A7071572A0C0B2200A740FF /* YS Display-Bold.ttf in Resources */,
+				9A7071582A0C0B2200A740FF /* YS Display-Medium.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
