@@ -8,13 +8,14 @@ import Foundation
 
 final class ProfileService {
     static let shared = ProfileService()
+    private let oAuth2TokenStorage = OAuth2TokenStorage()
     private var task: URLSessionTask?
     private(set) var profile: Profile?
     
     private init() {}
     
     private func prepareRequest() -> URLRequest? {
-        guard let token = OAuth2TokenStorage().token,
+        guard let token = oAuth2TokenStorage.token,
         var url = URL(string: BaseURLString)
         else { return nil }
 
@@ -56,6 +57,7 @@ final class ProfileService {
             case .failure(let error):
                 сompletionOnMainQueue(.failure(error))
             }
+            
             self?.task = nil
         }
         self.task = task

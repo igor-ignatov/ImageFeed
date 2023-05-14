@@ -22,14 +22,16 @@ final class OAuth2Service {
         return request
     }
     
-    private func checkLastCode(code: String) {
-        if lastCode == code { return }
-        task?.cancel()
-        lastCode = code
-    }
-    
     func fetchOAuthToken(_ code: String, completion: @escaping (Result<String, Error>) -> Void) {
         assert(Thread.isMainThread)
+        
+        if lastCode == code {
+            return
+        }
+        
+        task?.cancel()
+        lastCode = code
+        
         guard let request = prepareRequest(code: code) else { return }
         
         let сompletionOnMainQueue: (Result<String, Error>) -> Void = { result in
@@ -37,8 +39,6 @@ final class OAuth2Service {
                 completion(result)
             }
         }
-        
-        checkLastCode(code: code)
         
         let task = URLSession.shared.objectTask(for: request) { [weak self] (result: Result<OAuthTokenResponseBody, Error>) in
             switch result {
@@ -49,9 +49,12 @@ final class OAuth2Service {
                 сompletionOnMainQueue(.failure(error))
                 self?.lastCode = nil
             }
+            
             self?.task = nil
         }
+        
         self.task = task
+        
         task.resume()
     }
 }

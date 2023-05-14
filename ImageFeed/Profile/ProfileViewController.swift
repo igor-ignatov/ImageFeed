@@ -89,21 +89,22 @@ class ProfileViewController: UIViewController {
         
         addProfileAvatarObserver()
         
-        profileService.fetchProfile(oAuth2TokenStorage.token!) { [weak self] result in
-            guard let self = self else { return }
-            UIBlockingProgressHUD.show()
+        guard let token = oAuth2TokenStorage.token else { return UIBlockingProgressHUD.dismiss() }
+        
+        UIBlockingProgressHUD.show()
+        
+        profileService.fetchProfile(token) { [weak self] result in
+            UIBlockingProgressHUD.dismiss()
             
+            guard let self = self else { return }
             switch result {
             case let .success(profile):
-                UIBlockingProgressHUD.dismiss()
-                
                 self.profileImageService.fetchProfileImageURL(username: profile.username) { _ in }
                 nameLabel.text = profile.name
                 nicknameLabel.text = "@\(profile.username)"
                 textLabel.text = profile.bio
-            case let .failure(error):
-                UIBlockingProgressHUD.dismiss()
-                
+                break
+            case .failure:
                 self.showErrorAlert()
                 break
             }

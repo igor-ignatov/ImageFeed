@@ -24,7 +24,7 @@
                         <color key="backgroundColor" name="ypBlack"/>
                         <color key="selectedImageTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <tabBarAppearance key="standardAppearance">
-                            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <color key="backgroundColor" name="ypBlack"/>
                         </tabBarAppearance>
                     </tabBar>
                     <connections>
@@ -105,7 +105,7 @@
                             </tableView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
-                        <color key="backgroundColor" red="0.10196078431372549" green="0.10588235294117647" blue="0.13333333333333333" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" name="ypBlack"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="0ZD-Gs-GgP" secondAttribute="trailing" id="IWd-EN-lZK"/>
                             <constraint firstItem="0ZD-Gs-GgP" firstAttribute="bottom" secondItem="8bC-Xf-vdC" secondAttribute="bottom" id="LJH-QS-tOv"/>
@@ -133,6 +133,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="5Bu-bK-oVz"/>
+                        <color key="backgroundColor" name="ypBlack"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="" image="tab_profile_active" id="Jpw-92-Zpa"/>
                 </viewController>
@@ -189,7 +190,7 @@
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6ch-aO-qIa"/>
-                        <color key="backgroundColor" red="0.1019607843" green="0.1058823529" blue="0.1333333333" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" name="ypBlack"/>
                         <constraints>
                             <constraint firstItem="7Mw-Ok-GP5" firstAttribute="centerX" secondItem="6ch-aO-qIa" secondAttribute="centerX" id="504-0T-My7"/>
                             <constraint firstItem="6ch-aO-qIa" firstAttribute="bottom" secondItem="7Mw-Ok-GP5" secondAttribute="bottom" constant="36" id="5Vr-CV-unN"/>
@@ -220,7 +221,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="auth_screen_logo" translatesAutoresizingMaskIntoConstraints="NO" id="yec-kZ-Vnc">
-                                <rect key="frame" x="175" y="415" width="60" height="63"/>
+                                <rect key="frame" x="175" y="414" width="60" height="64"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nWJ-po-hE5">
@@ -338,7 +339,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="97N-R1-zTu"/>
-                        <color key="backgroundColor" red="0.1019607843" green="0.1058823529" blue="0.1333333333" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" name="ypBlack"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Unsplash" id="pdp-5E-rpb"/>
                     <connections>

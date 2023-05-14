@@ -9,6 +9,7 @@ import Foundation
 
 final class ProfileImageService {
     static let shared = ProfileImageService()
+    private let oAuth2TokenStorage = OAuth2TokenStorage()
     private var task: URLSessionTask?
     private(set) var avatarURL: String?
     
@@ -17,7 +18,7 @@ final class ProfileImageService {
     private init() {}
     
     private func prepareRequest(username: String) -> URLRequest? {
-        guard let token = OAuth2TokenStorage().token,
+        guard let token = oAuth2TokenStorage.token,
               var url = URL(string: BaseURLString)
         else { return nil }
         
@@ -35,7 +36,7 @@ final class ProfileImageService {
     
     func fetchProfileImageURL(username: String, _ completion: @escaping (Result<String, Error>) -> Void) {
         assert(Thread.isMainThread)
-
+        
         guard let request = prepareRequest(username: username) else { return }
         
         let сompletionOnMainQueue: (Result<String, Error>) -> Void = { result in
@@ -48,24 +49,28 @@ final class ProfileImageService {
             guard let self else { return }
             
             switch result {
-            case .success(let model):
-                сompletionOnMainQueue(.success(model.profile_image.medium))
-                self.avatarURL = model.profile_image.medium
-                self.task = nil
-                let avatarURL = model.profile_image.medium
-                
-                NotificationCenter.default
-                    .post(
-                        name: ProfileImageService.DidChangeNotification,
-                        object: self,
-                        userInfo: ["URL": avatarURL])
             case .failure(let error):
                 print(error)
                 сompletionOnMainQueue(.failure(error))
+                break
+            case .success(let model):
+                сompletionOnMainQueue(.success(model.profileImage.medium))
+                self.avatarURL = model.profileImage.medium
+                self.task = nil
+                let avatarURL = model.profileImage.medium
+                
+                DispatchQueue.main.async {
+                    NotificationCenter.default
+                        .post(
+                            name: ProfileImageService.DidChangeNotification,
+                            object: self,
+                            userInfo: ["URL": avatarURL])
+                }
             }
         }
         
         self.task = task
+        
         task.resume()
     }
 }
