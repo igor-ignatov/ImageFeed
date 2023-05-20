@@ -2,50 +2,58 @@ import Foundation
 
 
 final class OAuth2Service {
-    private enum NetworkError: Error {
-        case codeError
-    }
+    private var lastCode: String?
+    private var task: URLSessionTask?
     
-    func fetchOAuthToken(_ code: String, completion: @escaping (Result<String, Error>) -> Void) {
-        var urlComponents = URLComponents(string: "https://unsplash.com/oauth/token")
-        
-        urlComponents?.queryItems = [
+    private func prepareRequest(code: String) -> URLRequest? {
+        guard var urlComponents = URLComponents(string: TokenURLString)
+                
+        else { return nil }
+        urlComponents.queryItems = [
             URLQueryItem(name: "client_id", value: AccessKey),
             URLQueryItem(name: "client_secret", value: SecretKey),
             URLQueryItem(name: "redirect_uri", value: RedirectURI),
             URLQueryItem(name: "code", value: code),
             URLQueryItem(name: "grant_type", value: "authorization_code")
         ]
-        
-        guard let url = urlComponents?.url else { return }
-        
+        guard let url = urlComponents.url else { return nil }
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
+        return request
+    }
+    
+    func fetchOAuthToken(_ code: String, completion: @escaping (Result<String, Error>) -> Void) {
+        assert(Thread.isMainThread)
         
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            guard
-                let data = data,
-                let response = response as? HTTPURLResponse,
-                error == nil
-            else {
-                completion(.failure(error ?? URLError(.badServerResponse)))
-                return
-            }
-            
-            guard (200 ... 299) ~= response.statusCode else {
-                completion(.failure(NSError(domain: "NetworkError", code: response.statusCode, userInfo: nil)))
-
-                return
-            }
-            
-            do {
-                let responseBody = try JSONDecoder().decode(OAuth2TokenResponseBody.self, from: data)
-                
-                completion(.success(responseBody.accessToken))
-            } catch let error {
-                completion(.failure(error))
+        if lastCode == code {
+            return
+        }
+        
+        task?.cancel()
+        lastCode = code
+        
+        guard let request = prepareRequest(code: code) else { return }
+        
+        let сompletionOnMainQueue: (Result<String, Error>) -> Void = { result in
+            DispatchQueue.main.async {
+                completion(result)
             }
         }
+        
+        let task = URLSession.shared.objectTask(for: request) { [weak self] (result: Result<OAuthTokenResponseBody, Error>) in
+            switch result {
+            case .success(let model):
+                let token = model.accessToken
+                сompletionOnMainQueue(.success(token))
+            case .failure(let error):
+                сompletionOnMainQueue(.failure(error))
+                self?.lastCode = nil
+            }
+            
+            self?.task = nil
+        }
+        
+        self.task = task
         
         task.resume()
     }

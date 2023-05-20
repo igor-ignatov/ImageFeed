@@ -7,8 +7,16 @@
 
 import Foundation
 import UIKit
+import Kingfisher
 
 class ProfileViewController: UIViewController {
+    private var oAuth2TokenStorage = OAuth2TokenStorage()
+    private let profileService = ProfileService.shared
+    private let profileImageService = ProfileImageService.shared
+    private var profileImageServiceObserver: NSObjectProtocol?
+    
+    private let imageView = UIImageView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -23,11 +31,9 @@ class ProfileViewController: UIViewController {
         topContainer.contentMode = .scaleToFill
         topContainer.distribution = .equalSpacing
         
-        let profileImage = UIImage(named: "avatar")
-        let imageView = UIImageView(image: profileImage)
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
-
+        
         let exitButton = UIButton()
         let exitButtonImage = UIImage(named: "logout_button")
         exitButton.setImage(exitButtonImage, for: .normal)
@@ -38,20 +44,17 @@ class ProfileViewController: UIViewController {
         // Name label
         let nameLabel = UILabel()
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
-        nameLabel.text = "Екатерина Новикова"
         nameLabel.textColor = UIColor(named: "ypWhite")
         nameLabel.font = UIFont.boldSystemFont(ofSize: 23)
         
         // Nickname
         let nicknameLabel = UILabel()
         nicknameLabel.translatesAutoresizingMaskIntoConstraints = false
-        nicknameLabel.text = "@ekaterina_nov"
         nicknameLabel.textColor = UIColor(named: "ypGray")
         
-        // Text
+        // Bio
         let textLabel = UILabel()
         textLabel.translatesAutoresizingMaskIntoConstraints = false
-        textLabel.text = "Hello, world!"
         nameLabel.textColor = UIColor(named: "ypWhite")
         
         // >>> Render main container
@@ -83,5 +86,61 @@ class ProfileViewController: UIViewController {
             nameLabel.heightAnchor.constraint(equalToConstant: 22),
             nameLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 8)
         ])
+        
+        addProfileAvatarObserver()
+        
+        guard let token = oAuth2TokenStorage.token else { return UIBlockingProgressHUD.dismiss() }
+        
+        UIBlockingProgressHUD.show()
+        
+        profileService.fetchProfile(token) { [weak self] result in
+            UIBlockingProgressHUD.dismiss()
+            
+            guard let self = self else { return }
+            switch result {
+            case let .success(profile):
+                self.profileImageService.fetchProfileImageURL(username: profile.username) { _ in }
+                nameLabel.text = profile.name
+                nicknameLabel.text = "@\(profile.username)"
+                textLabel.text = profile.bio
+                break
+            case .failure:
+                self.showErrorAlert()
+                break
+            }
+            
+        }
+    }
+    
+    private func showErrorAlert() {
+        let alert = UIAlertController(title: "Что-то пошло не так(",
+                                      message: "Не удалось войти в систему",
+                                      preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default)
+        alert.addAction(okAction)
+        present(alert, animated: true)
+    }
+    
+    
+    private func addProfileAvatarObserver() {
+        profileImageServiceObserver = NotificationCenter.default
+            .addObserver(
+                forName: ProfileImageService.DidChangeNotification,
+                object: nil,
+                queue: .main
+            ) { [weak self] _ in
+                self?.updateAvatar()
+            }
+    }
+    
+    private func updateAvatar() {
+        guard
+            let profileImageURL = profileImageService.avatarURL,
+            let url = URL(string: profileImageURL)
+        else { return }
+        
+        let processor = RoundCornerImageProcessor(cornerRadius: 35, backgroundColor: UIColor(named: "ypBlack"))
+        
+        self.imageView.kf.setImage(with: url, options: [.processor(processor)])
     }
 }
