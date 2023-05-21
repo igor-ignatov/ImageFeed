@@ -37,7 +37,8 @@ class ProfileViewController: UIViewController {
         let exitButton = UIButton()
         let exitButtonImage = UIImage(named: "logout_button")
         exitButton.setImage(exitButtonImage, for: .normal)
-        
+        exitButton.addTarget(self, action: #selector(didTapLogoutButton), for: .touchUpInside)
+
         topContainer.addArrangedSubview(imageView)
         topContainer.addArrangedSubview(exitButton)
         
@@ -112,6 +113,17 @@ class ProfileViewController: UIViewController {
         }
     }
     
+    @objc private func didTapLogoutButton() {
+            let alert = UIAlertController(title: "Выход", message: "Вы желаете выйти?", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Да", style: .default, handler: { [weak self] _ in
+                guard let self = self else { return }
+                self.logOut()
+            }))
+            
+            alert.addAction(UIAlertAction(title: "Нет", style: .default))
+            self.present(alert, animated: true)
+        }
+    
     private func showErrorAlert() {
         let alert = UIAlertController(title: "Что-то пошло не так(",
                                       message: "Не удалось войти в систему",
@@ -142,5 +154,16 @@ class ProfileViewController: UIViewController {
         let processor = RoundCornerImageProcessor(cornerRadius: 35, backgroundColor: UIColor(named: "ypBlack"))
         
         self.imageView.kf.setImage(with: url, options: [.processor(processor)])
+    }
+    
+    private func logOut() {
+        WebViewViewController.cleanCookies()
+        guard let window = UIApplication.shared.windows.first else {
+            assertionFailure("Error")
+            return
+        }
+        
+        let splashViewController = SplashViewController()
+        window.rootViewController = splashViewController
     }
 }
