@@ -39,24 +39,27 @@ class SingleImageViewController: UIViewController {
     }
     
     @IBAction func didTapShareButton(_ sender: UIButton) {
-        let share = UIActivityViewController(
-            activityItems: [image],
-            applicationActivities: nil
-        )
-        present(share, animated: true, completion: nil)
+        guard let image = imageView.image else { return }
+        
+        let activityViewController = UIActivityViewController(activityItems: [image], applicationActivities: nil)
+        activityViewController.popoverPresentationController?.sourceView = self.view
+        self.present(activityViewController, animated: true, completion: nil)
     }
     
     func showImage() {
         UIBlockingProgressHUD.show()
+        
         imageView.kf.setImage(with: fullImageURL) { [weak self] result in
+            UIBlockingProgressHUD.dismiss()
+            
             guard let self = self else { return }
+            
             switch result {
             case .success(let imageResult):
                 self.rescaleAndCenterImageInScrollView(image: imageResult.image)
             case .failure:
                 self.showErrorAlert()
             }
-            UIBlockingProgressHUD.dismiss()
         }
     }
     
