@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 
 class SingleImageViewController: UIViewController {
+    var fullImageURL: URL!
     var image: UIImage! {
         didSet {
             guard isViewLoaded else { return }
@@ -17,7 +18,7 @@ class SingleImageViewController: UIViewController {
             rescaleAndCenterImageInScrollView(image: image)
         }
     }
-
+    
     @IBOutlet private weak var scrollView: UIScrollView!
     @IBOutlet weak var imageView: UIImageView!
     
@@ -26,14 +27,14 @@ class SingleImageViewController: UIViewController {
         
         scrollView.minimumZoomScale = 0.1
         scrollView.maximumZoomScale = 1.25
-        imageView.image = image
-        rescaleAndCenterImageInScrollView(image: image)
+        
+        showImage()
     }
-
+    
     
     
     @IBAction private func didTapBackButton(_ sender: UIButton!) {
-
+        
         dismiss(animated: true, completion: nil)
     }
     
@@ -43,6 +44,41 @@ class SingleImageViewController: UIViewController {
             applicationActivities: nil
         )
         present(share, animated: true, completion: nil)
+    }
+    
+    func showImage() {
+        UIBlockingProgressHUD.show()
+        imageView.kf.setImage(with: fullImageURL) { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .success(let imageResult):
+                self.rescaleAndCenterImageInScrollView(image: imageResult.image)
+            case .failure:
+                self.showErrorAlert()
+            }
+            UIBlockingProgressHUD.dismiss()
+        }
+    }
+    
+    private func showErrorAlert() {
+        let alert = UIAlertController(
+            title: "Что-то пошло не так",
+            message: "Попробовать ещё раз?",
+            preferredStyle: .alert
+        )
+        
+        let dismissAction = UIAlertAction(title: "Нет", style: .default ) { _ in
+            alert.dismiss(animated: true)
+        }
+        
+        let retryAction = UIAlertAction(title: "Попробовать еше раз?", style: .default) { [weak self] _ in
+            guard let self = self else { return }
+            self.showImage()
+        }
+        
+        alert.addAction(dismissAction)
+        alert.addAction(retryAction)
+        self.present(alert, animated: true)
     }
     
     private func rescaleAndCenterImageInScrollView(image: UIImage) {
