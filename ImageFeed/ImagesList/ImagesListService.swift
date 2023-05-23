@@ -17,12 +17,13 @@ final class ImagesListService {
     private (set) var photos: [Photo] = []
     private var lastLoadedPage: Int = 0
     
-    func fetchPhotosNextPage() {
+    func fetchPhotosNextPage(_ completion:  @escaping (Result<Void, Error>) -> Void) {
         assert(Thread.isMainThread)
         
         guard task == nil else { return }
         
         let nextPage = lastLoadedPage + 1
+        lastLoadedPage = nextPage
         
         let queryItems = [
             URLQueryItem(name: "page", value: String(nextPage)),
@@ -30,8 +31,6 @@ final class ImagesListService {
         ]
         guard var request = makeRequest(path: "/photos", queryItems: queryItems) else { return assertionFailure("Error get images request")}
         request.httpMethod = "GET"
-        
-        if photos.count == 0 { UIBlockingProgressHUD.show() }
         
         task?.cancel()
         
@@ -59,7 +58,7 @@ final class ImagesListService {
                     NotificationCenter.default.post(name: ImagesListService.didChangeNotification, object: self, userInfo: ["photos": photos])
                 }
             case .failure(let error):
-                print(error)
+                completion(.failure(error))
             }
             
             self?.task = nil
@@ -72,8 +71,6 @@ final class ImagesListService {
     func changeLike(photoId: String, isLike: Bool, _ completion: @escaping (Result<Photo, Error>) -> Void) {
         assert(Thread.isMainThread)
         task?.cancel()
-        
-        print("changeLike: \(photoId) \(isLike)")
         
         guard var request = makeRequest(path: "/photos/\(photoId)/like") else { return assertionFailure("Error like request")}
         
@@ -98,6 +95,12 @@ final class ImagesListService {
                         thumbImageURL: photo.thumbImageURL,
                         fullImageURL: photo.fullImageURL,
                         isLiked: !photo.isLiked)
+                    
+                    DispatchQueue.main.async {
+                        self.photos[index] = newPhoto
+                    }
+                    
+                    NotificationCenter.default.post(name: ImagesListService.didChangeNotification, object: self, userInfo: ["photos": photos])
                     
                     completion(.success((newPhoto)))
                 }
@@ -128,4 +131,5 @@ final class ImagesListService {
         
         return request
     }
+    
 }

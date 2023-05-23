@@ -30,7 +30,17 @@ class ImagesListViewController: UIViewController {
                 self.updateTableViewAnimated()
             }
         
-        imagesListService.fetchPhotosNextPage()
+        UIBlockingProgressHUD.show()
+        
+        imagesListService.fetchPhotosNextPage(){ [weak self] result in
+            UIBlockingProgressHUD.dismiss()
+            
+            guard let self = self else { return }
+            
+            if case .failure = result {
+                self.showErrorAlert(message: "Не удалось загрузить изображения")
+            }
+        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -116,7 +126,13 @@ extension ImagesListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if indexPath.row + 1 == imagesListService.photos.count {
-            imagesListService.fetchPhotosNextPage()
+            imagesListService.fetchPhotosNextPage(){ [weak self] result in
+                guard let self = self else { return }
+                
+                if case .failure = result {
+                    self.showErrorAlert(message: "Не удалось загрузить изображения")
+                }
+            }
         }
     }
 }
@@ -134,24 +150,21 @@ extension ImagesListViewController: ImagesListCellDelegate {
         imagesListService.changeLike(photoId: photo.id, isLike: !photo.isLiked) { [weak self] result in
             UIBlockingProgressHUD.dismiss()
             
-            guard let self = self else {
-                return
-            }
+            guard let self = self else { return }
             
             switch result {
             case .success(let newPhoto):
                 cell.setIsLiked(isLiked: newPhoto.isLiked)
-            case .failure(let error):
-                print("imageListCellDidTapLike Error: \(error)")
-                self.showErrorAlert()
+            case .failure:
+                self.showErrorAlert(message: "Не удалось поставить лайк")
             }
         }
     }
     
-    private func showErrorAlert() {
+    private func showErrorAlert(message: String) {
         let alert = UIAlertController(
             title: "Что-то пошло не так(",
-            message: "Не удалось поставить лайк",
+            message: message,
             preferredStyle: .alert)
         alert.addAction(UIAlertAction(
             title: "Ок",
