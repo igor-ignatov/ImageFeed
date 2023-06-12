@@ -38,6 +38,7 @@ class ProfileViewController: UIViewController {
         let exitButtonImage = UIImage(named: "logout_button")
         exitButton.setImage(exitButtonImage, for: .normal)
         exitButton.addTarget(self, action: #selector(didTapLogoutButton), for: .touchUpInside)
+        exitButton.accessibilityIdentifier = "LogOutButton"
 
         topContainer.addArrangedSubview(imageView)
         topContainer.addArrangedSubview(exitButton)

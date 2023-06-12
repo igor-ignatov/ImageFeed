@@ -18,6 +18,7 @@ final class AuthViewController: UIViewController {
         
         EnterButton.layer.cornerRadius = 16
         EnterButton.layer.masksToBounds = true
+        EnterButton.accessibilityIdentifier = "Authenticate"
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
