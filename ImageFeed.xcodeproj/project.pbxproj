@@ -10,6 +10,9 @@
 		9A3176722A1927BE00B21E69 /* ImagesListService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3176712A1927BE00B21E69 /* ImagesListService.swift */; };
 		9A3176742A1927DD00B21E69 /* ImageList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3176732A1927DD00B21E69 /* ImageList.swift */; };
 		9A31767C2A1A278600B21E69 /* ImageFeedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A31767B2A1A278600B21E69 /* ImageFeedTests.swift */; };
+		9A3176842A22132300B21E69 /* WebViewViewControllerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3176832A22132300B21E69 /* WebViewViewControllerProtocol.swift */; };
+		9A3176862A22133200B21E69 /* WebViewPresenterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3176852A22133200B21E69 /* WebViewPresenterProtocol.swift */; };
+		9A3176882A376E5200B21E69 /* WebViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3176872A376E5200B21E69 /* WebViewPresenter.swift */; };
 		9A424B7729DD76540006CF0E /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A424B7629DD76540006CF0E /* ProfileViewController.swift */; };
 		9A424B7A29DEE62E0006CF0E /* SingleImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A424B7929DEE62E0006CF0E /* SingleImageViewController.swift */; };
 		9A424BA529F0171E0006CF0E /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A424BA429F0171E0006CF0E /* Constants.swift */; };
@@ -55,6 +58,9 @@
 		9A3176732A1927DD00B21E69 /* ImageList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageList.swift; sourceTree = "<group>"; };
 		9A3176792A1A278600B21E69 /* ImageFeedTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ImageFeedTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A31767B2A1A278600B21E69 /* ImageFeedTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFeedTests.swift; sourceTree = "<group>"; };
+		9A3176832A22132300B21E69 /* WebViewViewControllerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewViewControllerProtocol.swift; sourceTree = "<group>"; };
+		9A3176852A22133200B21E69 /* WebViewPresenterProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewPresenterProtocol.swift; sourceTree = "<group>"; };
+		9A3176872A376E5200B21E69 /* WebViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewPresenter.swift; sourceTree = "<group>"; };
 		9A424B7629DD76540006CF0E /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		9A424B7929DEE62E0006CF0E /* SingleImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleImageViewController.swift; sourceTree = "<group>"; };
 		9A424BA429F0171E0006CF0E /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -111,6 +117,17 @@
 				9A31767B2A1A278600B21E69 /* ImageFeedTests.swift */,
 			);
 			path = ImageFeedTests;
+			sourceTree = "<group>";
+		};
+		9A3176822A22130900B21E69 /* WebView */ = {
+			isa = PBXGroup;
+			children = (
+				9A70EA9F29F55AE10023043D /* WebViewViewController.swift */,
+				9A3176832A22132300B21E69 /* WebViewViewControllerProtocol.swift */,
+				9A3176852A22133200B21E69 /* WebViewPresenterProtocol.swift */,
+				9A3176872A376E5200B21E69 /* WebViewPresenter.swift */,
+			);
+			path = WebView;
 			sourceTree = "<group>";
 		};
 		9A424B7529DD76390006CF0E /* Profile */ = {
@@ -228,8 +245,8 @@
 		9A70EA9C29F558180023043D /* Auth */ = {
 			isa = PBXGroup;
 			children = (
+				9A3176822A22130900B21E69 /* WebView */,
 				9A70EA9D29F558310023043D /* AuthViewController.swift */,
-				9A70EA9F29F55AE10023043D /* WebViewViewController.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -394,6 +411,7 @@
 				9A6CB6F029CA117900F1EED2 /* ImagesListViewController.swift in Sources */,
 				9A4539DB2A0BFB6E00957174 /* OAuthTokenResponse.swift in Sources */,
 				9A4539CB2A09578C00957174 /* Profile.swift in Sources */,
+				9A3176842A22132300B21E69 /* WebViewViewControllerProtocol.swift in Sources */,
 				9A70EAC229F8F8EC0023043D /* OAuth2TokenResponseBody.swift in Sources */,
 				9A3176722A1927BE00B21E69 /* ImagesListService.swift in Sources */,
 				9A4539D42A0959C000957174 /* URLSession.swift in Sources */,
@@ -402,6 +420,7 @@
 				9AAF496429D054E90066BE9D /* ImagesListCell.swift in Sources */,
 				9A424B7729DD76540006CF0E /* ProfileViewController.swift in Sources */,
 				9A6CB6EC29CA117900F1EED2 /* AppDelegate.swift in Sources */,
+				9A3176862A22133200B21E69 /* WebViewPresenterProtocol.swift in Sources */,
 				9A70EA9E29F558310023043D /* AuthViewController.swift in Sources */,
 				9A424BA529F0171E0006CF0E /* Constants.swift in Sources */,
 				9A424B7A29DEE62E0006CF0E /* SingleImageViewController.swift in Sources */,
@@ -409,6 +428,7 @@
 				9A3176742A1927DD00B21E69 /* ImageList.swift in Sources */,
 				9A70EAA029F55AE10023043D /* WebViewViewController.swift in Sources */,
 				9A6CB6EE29CA117900F1EED2 /* SceneDelegate.swift in Sources */,
+				9A3176882A376E5200B21E69 /* WebViewPresenter.swift in Sources */,
 				9A70EAC429F8F8EC0023043D /* OAuth2TokenStorage.swift in Sources */,
 				9A4539D92A095FED00957174 /* ProfileImageService.swift in Sources */,
 				9A70EAAA29F7C3730023043D /* SplashViewController.swift in Sources */,
