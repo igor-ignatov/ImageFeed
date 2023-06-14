@@ -18,6 +18,7 @@ final class AuthViewController: UIViewController {
         
         EnterButton.layer.cornerRadius = 16
         EnterButton.layer.masksToBounds = true
+        EnterButton.accessibilityIdentifier = "Authenticate"
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -25,6 +26,13 @@ final class AuthViewController: UIViewController {
             guard
                 let webViewViewController = segue.destination as? WebViewViewController
             else { fatalError("Failed to prepare for \(ShowWebViewSegueIdentifier)") }
+            
+            let authHelper = AuthHelper()
+            let webViewPresenter = WebViewPresenter(authHelper: authHelper)
+
+            webViewViewController.presenter = webViewPresenter
+            webViewPresenter.view = webViewViewController
+            
             webViewViewController.delegate = self
         } else {
             super.prepare(for: segue, sender: sender)
